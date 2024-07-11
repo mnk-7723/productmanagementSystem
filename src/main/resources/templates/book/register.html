@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<head th:replace="~{fragments :: head}">
+<head th:replace="fragments/head :: head"></head>
 </head>
 <body>
     <div class="container">
-        <div th:replace="~{fragments :: menu}"></div>
+        <div th:replace="fragments/menu :: menu"></div>
         <h1>Add Book</h1>
         <form th:action="@{register}" method="post" th:object="${bookForm}">
             <div>
