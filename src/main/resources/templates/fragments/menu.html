@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="menu">
+    <nav class="navbar navbar-custom mt-4 mb-4">
+        <div class="container-fluid">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/book/add">Add Book</a>
+            <a class="nav-link" href="/book/list">Book List</a>
+            <form action="/book/search" method="get" class="form-inline d-flex">
+                <input type="text" name="title" placeholder="Search by title" class="form-control mb-2 mr-2" th:value="${title}" />
+                <select name="genre" id="genre" class="form-control mb-2 mr-2">
+                    <option value="">All Genres</option>
+                    <option value="Comedy" th:selected="${genre == 'Comedy'}">Comedy</option>
+                    <option value="Drama" th:selected="${genre == 'Drama'}">Drama</option>
+                    <option value="Thriller" th:selected="${genre == 'Thriller'}">Thriller</option>
+                    <option value="Cartoon" th:selected="${genre == 'Cartoon'}">Cartoon</option>
+                    <option value="Rebirth" th:selected="${genre == 'Rebirth'}">Rebirth</option>
+                    <option value="Webtoon" th:selected="${genre == 'Webtoon'}">Webtoon</option>
+                </select>
+                <input type="submit" value="Search" class="btn btn-primary mb-2" />
+            </form>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

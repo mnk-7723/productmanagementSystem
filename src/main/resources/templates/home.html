@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div class="container">
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <h1>Welcome to Book Store.</h1>
+    <a th:href="@{/book/list?page=0&size=5}">Go to Book List</a>
+</div>
+</body>
+</html>

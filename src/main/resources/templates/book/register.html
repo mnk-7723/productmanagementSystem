@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head th:replace="~{fragments :: head}">
+</head>
+<body>
+    <div class="container">
+        <div th:replace="~{fragments :: menu}"></div>
+        <h1>Add Book</h1>
+        <form th:action="@{register}" method="post" th:object="${bookForm}">
+            <div>
+                <label>Enter Book Name: </label>
+                <input type="text" th:field="*{title}" name="title" class="form-control">
+            </div>
+            <div class="my-3">
+                <label>Enter Author Name: </label>
+                <input type="text" th:field="*{author}" name="author" class="form-control">
+            </div>
+            <div class="my-3">
+                <label>Enter Genre: </label>
+                <input type="text" th:field="*{genre}" name="genre" class="form-control">
+            </div>
+            <div class="my-3">
+                <label>Enter Price:: </label>
+                <input type="text" th:field="*{price}" name="price" class="form-control">
+            </div>
+            <div>
+                <button type="sumit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
