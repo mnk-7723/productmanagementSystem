@@ -1,6 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head}"></head>
+<head th:replace="~{fragments/head :: head}">
+    <style>
+        .pagination-container {
+            text-align: center;
+        }
+
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 0;
+            border-radius: 4px;
+        }
+
+        .page-item {
+            display: inline;
+        }
+
+        .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            text-decoration: none;
+        }
+
+        .page-link:hover {
+            color: #0056b3;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+    </style>
+
+
+</head>
 <body>
 <div class="container">
     <div th:replace="~{fragments/menu :: menu}"></div>
@@ -24,25 +75,44 @@
             <td th:text="${book.genre}"></td>
             <td th:text="${book.price}"></td>
             <td>
-                <a th:href="@{'edit/' + ${book.bookId}}" class="btn btn-primary">Edit</a>
-                <a th:href="@{'delete/' + ${book.bookId}}" class="btn btn-danger">Delete</a>
+                <a th:href="@{'/book/edit/' + ${book.bookId}} + '?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage} + '&size=' + ${size}" class="btn btn-primary">Edit</a>
+                <a th:href="@{'/book/delete/' + ${book.bookId}}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <div class="pagination">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{/book/list(page=${currentPage > 0 ? currentPage - 1 : 0},size=${size})}">Previous</a>
+
+    <div class="pagination-container" style="text-align: center; margin-top: 20px;">
+        <ul class="pagination" style=" justify-content: center;">
+            <li class="paginate_button page-item previous" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage - 1} + '&size=' + ${size}}"
+                   aria-controls="book-table" tabindex="0" class="page-link">Previous</a>
             </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i} ? 'active'">
-                <a class="page-link" th:href="@{/book/list(page=${i},size=${size})}" th:text="${i + 1}">1</a>
+
+            <li class="paginate_button page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active' : ''">
+                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${i} + '&size=' + ${size}}"
+                   th:text="${i + 1}" aria-controls="book-table" tabindex="0" class="page-link"></a>
             </li>
-            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/book/list(page=${currentPage < totalPages - 1 ? currentPage + 1 : totalPages - 1},size=${size})}">Next</a>
+
+            <li class="paginate_button page-item next" th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage + 1} + '&size=' + ${size}}"
+                   aria-controls="book-table" tabindex="0" class="page-link">Next</a>
             </li>
         </ul>
     </div>
+
+
+    <!-- <div>
+        <span>Page: <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+        <div>
+            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=0&size=' + ${size}}">First</a>
+            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage - 1} + '&size=' + ${size}}" th:if="${currentPage > 0}">Previous</a>
+            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage + 1} + '&size=' + ${size}}" th:if="${currentPage < totalPages - 1}">Next</a>
+            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${totalPages - 1} + '&size=' + ${size}}">Last</a>
+        </div>
+    </div> -->
+
 </div>
 </body>
 </html>

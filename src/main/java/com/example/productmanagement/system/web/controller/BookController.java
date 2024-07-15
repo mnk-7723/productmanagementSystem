@@ -1,5 +1,7 @@
 package com.example.productmanagement.system.web.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,18 +75,36 @@ public class BookController {
 
 	// UPDATE
 	@GetMapping("/edit/{id}")
-	public String showEditBookForm(@PathVariable("id") Long id, Model model) {
+	public String showEditBookForm(@PathVariable("id") Long id,
+								   @RequestParam(value = "title", required = false) String title,
+								   @RequestParam(value = "genre", required = false) String genre,
+								   @RequestParam(value = "page", defaultValue = "0") int page,
+								   @RequestParam(value = "size", defaultValue = "5") int size,
+								   Model model) {
 		Book book = bookService.getBookById(id);
 		model.addAttribute("bookForm", book);
 		model.addAttribute("pageTitle", "Edit Book | BookStore");
+		model.addAttribute("title", title);
+		model.addAttribute("genre", genre);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("pageSize", size);
 		return "book/edit";
 	}
 
 	// UPDATE
 	@PostMapping("/update")
-	public String updateBook(@ModelAttribute("bookForm") BookForm bookForm) {
+	public String updateBook(@ModelAttribute("bookForm") BookForm bookForm,
+							 @RequestParam(value = "searchTitle") String searchTitle,
+							 @RequestParam(value = "searchGenre") String searchGenre,
+							 @RequestParam(value = "currentPage") int currentPage,
+							 @RequestParam(value = "pageSize") int pageSize) {
 		bookService.updateBook(bookForm);
-		return "redirect:/book/list";
+		String redirectUrl ="redirect:/book/search?title=" + URLEncoder.encode(searchTitle, StandardCharsets.UTF_8) +
+							"&genre="+ URLEncoder.encode(searchGenre, StandardCharsets.UTF_8) +
+							"&page=" + currentPage +
+							"&size=" + pageSize;
+
+		return redirectUrl;
 	}
 
 	// DELETE
