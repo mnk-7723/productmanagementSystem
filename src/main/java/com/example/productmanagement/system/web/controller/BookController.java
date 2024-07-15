@@ -121,15 +121,21 @@ public class BookController {
 							  @RequestParam(value = "page", defaultValue = "0") int page,
 							  @RequestParam(value = "size", defaultValue = "5") int size,
 							  Model model) {
-		  Page<Book> bookPage = bookService.searchBook(title, genre, page, size);
+
+		// Make sure page is non-negative
+		int pageNumber = (page >= 0) ? page : 0;
+		// Make sure size is positive
+		int pageSize = (size > 0) ? size : 5;
+
+		Page<Book> bookPage = bookService.searchBook(title, genre, pageNumber, pageSize);
 		
 		model.addAttribute("books", bookPage.getContent());
         model.addAttribute("genres", bookService.findAllGenres());
-        model.addAttribute("title", title); // Add title to the model
-        model.addAttribute("genre", genre); // Add genre to the model
-        model.addAttribute("currentPage", page);
+        model.addAttribute("title", title != null ? title : ""); // Add title to the model
+        model.addAttribute("genre", genre != null ? genre : ""); // Add genre to the model
+        model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", bookPage.getTotalPages());
-        model.addAttribute("size", size);
+        model.addAttribute("size", pageSize);
         
         return "book/list";
 	}

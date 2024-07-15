@@ -82,10 +82,29 @@
         </tbody>
     </table>
 
+<!--    <div class="pagination-container" style="text-align: center; margin-top: 20px;">-->
+<!--        <ul class="pagination" style=" justify-content: center;">-->
+<!--            <li class="paginate_button page-item previous" th:classappend="${currentPage == 0} ? 'disabled' : ''">-->
+<!--                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage - 1} + '&size=' + ${size}}"-->
+<!--                   aria-controls="book-table" tabindex="0" class="page-link">Previous</a>-->
+<!--            </li>-->
+
+<!--            <li class="paginate_button page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"-->
+<!--                th:classappend="${i == currentPage} ? 'active' : ''">-->
+<!--                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${i} + '&size=' + ${size}}"-->
+<!--                   th:text="${i + 1}" aria-controls="book-table" tabindex="0" class="page-link"></a>-->
+<!--            </li>-->
+
+<!--            <li class="paginate_button page-item next" th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">-->
+<!--                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage + 1} + '&size=' + ${size}}"-->
+<!--                   aria-controls="book-table" tabindex="0" class="page-link">Next</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
     <div class="pagination-container" style="text-align: center; margin-top: 20px;">
-        <ul class="pagination" style=" justify-content: center;">
+        <ul class="pagination" style="justify-content: center;">
             <li class="paginate_button page-item previous" th:classappend="${currentPage == 0} ? 'disabled' : ''">
-                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage - 1} + '&size=' + ${size}}"
+                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + (${currentPage} - 1) + '&size=' + ${size}}"
                    aria-controls="book-table" tabindex="0" class="page-link">Previous</a>
             </li>
 
@@ -96,22 +115,12 @@
             </li>
 
             <li class="paginate_button page-item next" th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
-                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage + 1} + '&size=' + ${size}}"
+                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + (${currentPage} + 1) + '&size=' + ${size}}"
                    aria-controls="book-table" tabindex="0" class="page-link">Next</a>
             </li>
         </ul>
     </div>
 
-
-    <!-- <div>
-        <span>Page: <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
-        <div>
-            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=0&size=' + ${size}}">First</a>
-            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage - 1} + '&size=' + ${size}}" th:if="${currentPage > 0}">Previous</a>
-            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage + 1} + '&size=' + ${size}}" th:if="${currentPage < totalPages - 1}">Next</a>
-            <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${totalPages - 1} + '&size=' + ${size}}">Last</a>
-        </div>
-    </div> -->
 
 </div>
 </body>

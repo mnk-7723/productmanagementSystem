@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="~{fragments/head :: head}"></head>
 <body>
     <div class="container">
-        <div th:replace="fragments/menu :: menu"></div>
+        <div th:replace="~{fragments/menu :: menu}"></div>
         <h1>Edit Book</h1>
         <form th:action="@{/book/update}" method="post" th:object="${bookForm}">
         <div>
@@ -31,6 +31,7 @@
             <input type="hidden" name="pageSize" th:value="${pageSize}">
             <div>
                 <button type="sumit" class="btn btn-primary">Submit</button>
+                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage} + '&size=' + ${pageSize}}" class="btn btn-secondary">Back</a>
             </div>
         </form>
     </div>
