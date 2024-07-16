@@ -22,11 +22,12 @@ public class BookServiceImpl implements BookService{
 	private BookDao bookDao;
 
 	@Override
-	public void addBook(BookForm bookForm) {
+	public Book addBook(BookForm bookForm) {
 		Book book = new Book(bookForm);
 		bookDao.save(book);
-		
-	}
+
+        return book;
+    }
 
 	@Override
 	public Page<Book> getBooks(Pageable pageable) {
@@ -45,10 +46,10 @@ public class BookServiceImpl implements BookService{
 	}
 
 	@Override
-	public void updateBook(BookForm bookForm) {
+	public Book updateBook(BookForm bookForm) {
 		bookDao.save(new Book(bookForm));
-		
-	}
+        return null;
+    }
 
 	@Override
 	public Page<Book> searchBook(String title, String genre, int page, int size) {
