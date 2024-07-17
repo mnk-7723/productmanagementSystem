@@ -13,6 +13,8 @@ import java.util.UUID;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,9 @@ public class BookController {
 	 */
 	@Autowired
 	private BookService bookService;
+
+	@Autowired
+	private ResourceLoader resourceLoader;
 
 	// READ
 	@GetMapping("/list")
@@ -166,22 +171,23 @@ public class BookController {
 
 	private String saveImage(MultipartFile image) throws IOException {
 		if (image != null && !image.isEmpty()) {
-			String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
-			String uploadDir = "src/main/resources/static/uploads/book-images";
-			Path uploadPath = Paths.get(uploadDir);
+			try {
+				Resource resource = resourceLoader.getResource("classpath:/static/uploads/book-images/");
+				Path uploadPath = Paths.get(resource.getURI());
 
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
+				if (!Files.exists(uploadPath)) {
+					Files.createDirectories(uploadPath);
+				}
 
-			try (InputStream inputStream = image.getInputStream()) {
-				Path filePath = uploadPath.resolve(fileName);
-				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-				return fileName;
-			} catch (IOException e) {
-				throw new IOException("Could not save image file: " + fileName, e);
+					String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+					Path filePath = uploadPath.resolve(fileName);
+					Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+					return fileName;
+				}catch (IOException e) {
+					throw new IOException("Could not save image file", e);
+				}
 			}
-		}
 		return null;
 	}
 }
