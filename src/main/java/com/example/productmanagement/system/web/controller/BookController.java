@@ -11,11 +11,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,7 +78,11 @@ public class BookController {
 
 	// CREATE
 	@PostMapping("/register")
-	public String addBook(@ModelAttribute("bookForm") BookForm bookForm) throws IOException{
+	public String addBook(@Valid @ModelAttribute("bookForm") BookForm bookForm, BindingResult bindingResult) throws IOException{
+		if (bindingResult.hasErrors()) {
+			return "book/register";
+		}
+
 		String imageUrl = saveImage(bookForm.getImage());
 		bookForm.setImageUrl(imageUrl);
 
@@ -171,7 +177,6 @@ public class BookController {
 			try (InputStream inputStream = image.getInputStream()) {
 				Path filePath = uploadPath.resolve(fileName);
 				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-//				return "/" + uploadDir + "/" + fileName;
 				return fileName;
 			} catch (IOException e) {
 				throw new IOException("Could not save image file: " + fileName, e);

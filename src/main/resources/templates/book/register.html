@@ -18,10 +18,12 @@
             <div>
                 <label>Enter Book Name: </label>
                 <input type="text" th:field="*{title}" name="title" class="form-control">
+                <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
             </div>
             <div class="my-3">
                 <label>Enter Author Name: </label>
                 <input type="text" th:field="*{author}" name="author" class="form-control">
+                <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
             </div>
             <div class="my-3">
                 <label>Enter Genre: </label>
@@ -33,6 +35,7 @@
             </div>
             <div>
                 <button type="sumit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancel</button>
             </div>
         </form>
     </div>
@@ -52,6 +55,13 @@
             };
             reader.readAsDataURL(input.files[0]);
         }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+          $("#btnCancel").on("click", function () {
+            window.location = "[[@{/book/list}]]";
+          });
+        });
     </script>
 </body>
 </html>
