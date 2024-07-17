@@ -59,6 +59,7 @@
     <table class="table table-hover table-bordered">
         <thead class="thead font-weight:bold">
         <tr>
+            <th scope="col">Book Cover</th>
             <th scope="col">Book ID</th>
             <th scope="col">Book Title</th>
             <th scope="col">Author</th>
@@ -69,6 +70,7 @@
         </thead>
         <tbody>
         <tr th:each="book : ${books}" scope="row">
+            <td><img th:src="@{'/uploads/book-images/' + ${book.imageUrl}}" alt="Book Image" height="70px"></td>
             <td th:text="${book.bookId}"></td>
             <td th:text="${book.title}"></td>
             <td th:text="${book.author}"></td>
@@ -82,25 +84,6 @@
         </tbody>
     </table>
 
-<!--    <div class="pagination-container" style="text-align: center; margin-top: 20px;">-->
-<!--        <ul class="pagination" style=" justify-content: center;">-->
-<!--            <li class="paginate_button page-item previous" th:classappend="${currentPage == 0} ? 'disabled' : ''">-->
-<!--                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage - 1} + '&size=' + ${size}}"-->
-<!--                   aria-controls="book-table" tabindex="0" class="page-link">Previous</a>-->
-<!--            </li>-->
-
-<!--            <li class="paginate_button page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"-->
-<!--                th:classappend="${i == currentPage} ? 'active' : ''">-->
-<!--                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${i} + '&size=' + ${size}}"-->
-<!--                   th:text="${i + 1}" aria-controls="book-table" tabindex="0" class="page-link"></a>-->
-<!--            </li>-->
-
-<!--            <li class="paginate_button page-item next" th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">-->
-<!--                <a th:href="@{'/book/search?title=' + ${title} + '&genre=' + ${genre} + '&page=' + ${currentPage + 1} + '&size=' + ${size}}"-->
-<!--                   aria-controls="book-table" tabindex="0" class="page-link">Next</a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </div>-->
     <div class="pagination-container" style="text-align: center; margin-top: 20px;">
         <ul class="pagination" style="justify-content: center;">
             <li class="paginate_button page-item previous" th:classappend="${currentPage == 0} ? 'disabled' : ''">

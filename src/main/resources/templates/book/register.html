@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="~{fragments/head :: head}">
 </head>
 <body>
     <div class="container">
-        <div th:replace="fragments/menu :: menu"></div>
+        <div th:replace="~{fragments/menu :: menu}"></div>
         <h1>Add Book</h1>
-        <form th:action="@{register}" method="post" th:object="${bookForm}">
+        <form th:action="@{register}" method="post" th:object="${bookForm}" enctype="multipart/form-data">
+            <div>
+                <label>Upload Book Cover: </label>
+                <div id="imagePreview">
+                    <!-- Placeholder for image preview -->
+                </div>
+                <input type="file" id="imageInput" th:field="*{image}" class="form-control" onchange="previewImage(event)">
+
+            </div>
             <div>
                 <label>Enter Book Name: </label>
                 <input type="text" th:field="*{title}" name="title" class="form-control">
@@ -28,5 +36,22 @@
             </div>
         </form>
     </div>
+
+    <script th:inline="javascript">
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function() {
+                var preview = document.getElementById('imagePreview');
+                var imgElement = document.createElement('img');
+                imgElement.src = reader.result;
+                imgElement.style.maxWidth = '200px'; // Adjust width as
+                imgElement.style.maxHeight = '100px';
+                preview.innerHTML = ''; // Clear previous preview
+                preview.appendChild(imgElement);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
 </body>
 </html>

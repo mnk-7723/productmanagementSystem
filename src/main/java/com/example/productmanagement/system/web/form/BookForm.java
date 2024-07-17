@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <h2>BookForm Class</h2>
@@ -21,57 +22,27 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookForm {
-	/**
-     * <h2>bookId</h2>
-     * <p>
-     * bookId
-     * </p>
-     */
+
     private Long bookId;
-    
-    /**
-	 *  <h2>title</h2>
-	 *  <p>
-	 *  title
-	 *  </p>
-	 */
+
     private String title;
-	
-	/**
-	 *  <h2>author</h2>
-	 *  <p>
-	 *  author
-	 *  </p>
-	 */
+
+	private MultipartFile image;
+
+	private String imageUrl;
+
 	private String author;
-	
-	/**
-	 *  <h2>genre</h2>
-	 *  <p>
-	 *  genre
-	 *  </p>
-	 */
+
 	private String genre;
-	
-	/**
-	 *  <h2>price</h2>
-	 *  <p>
-	 *  price
-	 *  </p>
-	 */
+
 	private double price;
-	
-	/**
-     * <h2>Constructor of BookDTO</h2>
-     * <p>
-     * Constructor of BookDTO
-     * </p>
-     */
+
 	public BookForm(Book book) {
 		this.bookId = book.getBookId();
 		this.title = book.getTitle();
 		this.author = book.getAuthor();
 		this.genre = book.getGenre();
 		this.price = book.getPrice();
+		this.imageUrl = book.getImageUrl();
 	}
 }

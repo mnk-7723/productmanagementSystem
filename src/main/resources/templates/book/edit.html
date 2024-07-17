@@ -5,10 +5,17 @@
     <div class="container">
         <div th:replace="~{fragments/menu :: menu}"></div>
         <h1>Edit Book</h1>
-        <form th:action="@{/book/update}" method="post" th:object="${bookForm}">
+        <form th:action="@{/book/update}" method="post" th:object="${bookForm}" enctype="multipart/form-data">
         <div>
             <input type="hidden" th:field="*{bookId}" name="bookId" class="form-control">
         </div>
+            <div>
+                <label>Book Cover</label>
+                <div>
+                    <img th:src="@{'/uploads/book-images/' + ${bookForm.imageUrl}}" alt="Book Cover" width="100">
+                </div>
+                <input type="file" th:field="*{image}" class="form-control">
+            </div>
             <div>
                 <label>Enter Book Name: </label>
                 <input type="text" th:field="*{title}" name="title" class="form-control">
