@@ -1,6 +1,8 @@
 package com.example.productmanagement.system.web.form;
 import com.example.productmanagement.system.persistence.entity.Book;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -25,12 +27,14 @@ public class BookForm {
 
     private Long bookId;
 
+	@NotBlank(message = "The title is required.")
     private String title;
 
 	private MultipartFile image;
 
 	private String imageUrl;
 
+	@NotEmpty(message = "The author name is required.")
 	private String author;
 
 	private String genre;

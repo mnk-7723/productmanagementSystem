@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -47,9 +49,11 @@ public class Book {
 	@Column(name ="image_url")
 	private String imageUrl;
 
+	@NotBlank(message = "The title is required.")
 	@Column(name = "title")
 	private String title;
 
+	@NotEmpty(message = "The author name is required.")
 	@Column(name = "author")
 	private String author;
 

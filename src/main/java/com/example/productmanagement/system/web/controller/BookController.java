@@ -11,11 +11,15 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +54,9 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
+	@Autowired
+	private ResourceLoader resourceLoader;
+
 	// READ
 	@GetMapping("/list")
 		public String listProducts(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -76,7 +83,11 @@ public class BookController {
 
 	// CREATE
 	@PostMapping("/register")
-	public String addBook(@ModelAttribute("bookForm") BookForm bookForm) throws IOException{
+	public String addBook(@Valid @ModelAttribute("bookForm") BookForm bookForm, BindingResult bindingResult) throws IOException{
+		if (bindingResult.hasErrors()) {
+			return "book/register";
+		}
+
 		String imageUrl = saveImage(bookForm.getImage());
 		bookForm.setImageUrl(imageUrl);
 
@@ -160,23 +171,23 @@ public class BookController {
 
 	private String saveImage(MultipartFile image) throws IOException {
 		if (image != null && !image.isEmpty()) {
-			String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
-			String uploadDir = "src/main/resources/static/uploads/book-images";
-			Path uploadPath = Paths.get(uploadDir);
+			try {
+				Resource resource = resourceLoader.getResource("classpath:/static/uploads/book-images/");
+				Path uploadPath = Paths.get(resource.getURI());
 
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
+				if (!Files.exists(uploadPath)) {
+					Files.createDirectories(uploadPath);
+				}
 
-			try (InputStream inputStream = image.getInputStream()) {
-				Path filePath = uploadPath.resolve(fileName);
-				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-//				return "/" + uploadDir + "/" + fileName;
-				return fileName;
-			} catch (IOException e) {
-				throw new IOException("Could not save image file: " + fileName, e);
+					String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+					Path filePath = uploadPath.resolve(fileName);
+					Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+					return fileName;
+				}catch (IOException e) {
+					throw new IOException("Could not save image file", e);
+				}
 			}
-		}
 		return null;
 	}
 }

@@ -11,10 +11,14 @@
         </div>
             <div>
                 <label>Book Cover</label>
-                <div>
+                <div id="imagePreview">
+                    <!-- Placeholder for image preview -->
                     <img th:src="@{'/uploads/book-images/' + ${bookForm.imageUrl}}" alt="Book Cover" width="100">
                 </div>
-                <input type="file" th:field="*{image}" class="form-control">
+<!--                <div>-->
+<!--                    <img th:src="@{'/uploads/book-images/' + ${bookForm.imageUrl}}" alt="Book Cover" width="100">-->
+<!--                </div>-->
+                <input type="file" id="imageInput" th:field="*{image}" class="form-control" onchange="previewImage(event)">
             </div>
             <div>
                 <label>Enter Book Name: </label>
@@ -42,5 +46,22 @@
             </div>
         </form>
     </div>
+
+    <script th:inline="javascript">
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function() {
+                var preview = document.getElementById('imagePreview');
+                var imgElement = document.createElement('img');
+                imgElement.src = reader.result;
+                imgElement.style.maxWidth = '200px'; // Adjust width as
+                imgElement.style.maxHeight = '100px';
+                preview.innerHTML = ''; // Clear previous preview
+                preview.appendChild(imgElement);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
 </body>
 </html>
