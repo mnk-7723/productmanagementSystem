@@ -5,13 +5,12 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.example.productmanagement.system.bl.dto.BookDTO;
 import com.example.productmanagement.system.persistence.entity.Book;
 import com.example.productmanagement.system.web.form.BookForm;
 
 public interface BookService {
 	
-	public void addBook(BookForm bookForm);
+	public Book addBook(BookForm bookForm);
 	
 	public Page<Book> getBooks(Pageable pageable);
 	
@@ -19,7 +18,7 @@ public interface BookService {
 	
 	void deleteBookById(Long bookId);
 	
-	void updateBook(BookForm bookForm);
+	Book updateBook(BookForm bookForm);
 	
 	public Page<Book> searchBook(String title, String genre, int page, int size);
 

@@ -42,57 +42,30 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private Long bookId;
-	
-	/**
-	 *  <h2>title</h2>
-	 *  <p>
-	 *  title
-	 *  </p>
-	 */
+
+
+	@Column(name ="image_url")
+	private String imageUrl;
+
 	@Column(name = "title")
 	private String title;
-	
-	/**
-	 *  <h2>author</h2>
-	 *  <p>
-	 *  author
-	 *  </p>
-	 */
+
 	@Column(name = "author")
 	private String author;
-	
-	/**
-	 *  <h2>genre</h2>
-	 *  <p>
-	 *  genre
-	 *  </p>
-	 */
+
 	@Column(name = "genre")
 	private String genre;
-	
-	/**
-	 *  <h2>price</h2>
-	 *  <p>
-	 *  price
-	 *  </p>
-	 */
+
 	@Column(name = "price")
 	private double price;
-	
-	/**
-     * <h2>Constructor for Book</h2>
-     * <p>
-     * Constructor for Book
-     * </p>
-     * 
-     * @param bookForm
-     */
+
 	public Book(BookForm bookForm) {
 		this.bookId = bookForm.getBookId();
 		this.title = bookForm.getTitle();
 		this.author = bookForm.getAuthor();
 		this.genre = bookForm.getGenre();
 		this.price = bookForm.getPrice();
+		this.imageUrl = bookForm.getImageUrl();
 	}
-	
+
 }
