@@ -1,6 +1,7 @@
 package com.example.productmanagement.system.config;
 
 
+import com.example.productmanagement.system.bl.service.user.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +18,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class AuthorizeUrlsSecurityConfig {
+
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public AuthorizeUrlsSecurityConfig(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -34,7 +42,8 @@ public class AuthorizeUrlsSecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
-                );
+                )
+                .userDetailsService(customUserDetailsService);
 
         return http.build();
     }
